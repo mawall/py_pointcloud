@@ -2,8 +2,7 @@ FROM mawall/ubuntu16.04_base
 
 # Dependencies
 RUN apt-get update && apt-get install -y libpcl-dev=1.7.2-14build1
-RUN pip install --upgrade pip && \
-    pip install -U setuptools && \
+RUN pip install -U setuptools && \
     pip install         \
         python-pcl      \
         pye57
