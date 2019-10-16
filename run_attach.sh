@@ -12,5 +12,6 @@ docker run   \
     -v $DATA_DIR:/data/  \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -w /notebooks \
+    --entrypoint=/bin/bash \
     --name pypcl \
     pypcl
