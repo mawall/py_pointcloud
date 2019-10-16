@@ -1,3 +1,3 @@
 #! /bin/bash
 
-sudo docker build . -t tf_pointcloud
+sudo docker build . -t py_pointcloud
