@@ -13,8 +13,10 @@ RUN conda install -y    \
         scipy           \
         scikit-learn
 RUN conda install -c open3d-admin open3d && \
+    conda install -c conda-forge pdal python-pdal gdal && \
     conda install -c conda-forge jupyterlab
 
-RUN mkdir /notebooks && mkdir /data
+RUN mkdir /notebooks && mkdir /data && mkdir /opt/conda/lib/python3.7/ifcopenshell
+ADD ifcopenshell /opt/conda/lib/python3.7/ifcopenshell
 
 CMD ["jupyter", "lab", "--allow-root"]
