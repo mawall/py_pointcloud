@@ -57,6 +57,4 @@ RUN jupyter notebook --generate-config && \
 RUN mkdir /notebooks && mkdir /data && mkdir /project && mkdir /opt/conda/lib/python3.7/ifcopenshell
 ADD ifcopenshell /opt/conda/lib/python3.7/ifcopenshell
 
-# The command passed to --ip will find whatever source ip has a route to Google's public DNS server, aka the internet
-# From: https://unix.stackexchange.com/questions/87468/is-there-an-easy-way-to-programmatically-extract-ip-address
-CMD ["jupyter", "lab", "--allow-root", "--ip $(ip -o route get 8.8.8.8 | sed -e 's/^.* src \([^ ]*\) .*$/\1/')"]
+CMD ["sh", "-c", "jupyter lab --allow-root --ip ${HOST_IP}"]
