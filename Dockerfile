@@ -49,7 +49,16 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager@1.0 --no-bu
     jupyter lab build && \
     unset NODE_OPTIONS
 
+# Configure jupyter lab for remote access
+# TODO: Secure server - https://jupyter-notebook.readthedocs.io/en/stable/public_server.html
+RUN cat << EOF > /root/.jupyter/jupyter_notebook_config.py
+c.NotebookApp.ip = '*'
+c.NotebookApp.port = 9999
+EOF
+
 RUN mkdir /notebooks && mkdir /data && mkdir /project && mkdir /opt/conda/lib/python3.7/ifcopenshell
 ADD ifcopenshell /opt/conda/lib/python3.7/ifcopenshell
 
-CMD ["jupyter", "lab", "--allow-root"]
+# The command passed to --ip will find whatever source ip has a route to Google's public DNS server, aka the internet
+# From: https://unix.stackexchange.com/questions/87468/is-there-an-easy-way-to-programmatically-extract-ip-address
+CMD ["jupyter", "lab", "--allow-root", "--ip $(ip -o route get 8.8.8.8 | sed -e 's/^.* src \([^ ]*\) .*$/\1/')"]
