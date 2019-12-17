@@ -51,7 +51,8 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager@1.0 --no-bu
 
 # Configure jupyter lab for remote access
 # TODO: Secure server - https://jupyter-notebook.readthedocs.io/en/stable/public_server.html
-RUN cat << EOF > /root/.jupyter/jupyter_notebook_config.py \
+RUN jupyter notebook --generate-config && \
+    cat << EOF > /root/.jupyter/jupyter_notebook_config.py \
 c.NotebookApp.ip = '*'                                     \
 c.NotebookApp.port = 9999                                  \
 EOF
