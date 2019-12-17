@@ -52,10 +52,7 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager@1.0 --no-bu
 # Configure jupyter lab for remote access
 # TODO: Secure server - https://jupyter-notebook.readthedocs.io/en/stable/public_server.html
 RUN jupyter notebook --generate-config && \
-    cat << EOF > /root/.jupyter/jupyter_notebook_config.py \
-c.NotebookApp.ip = '*'                                     \
-c.NotebookApp.port = 9999                                  \
-EOF
+    echo "c.NotebookApp.ip = '*'\nc.NotebookApp.port = 9999\n" > /root/.jupyter/jupyter_notebook_config.py
 
 RUN mkdir /notebooks && mkdir /data && mkdir /project && mkdir /opt/conda/lib/python3.7/ifcopenshell
 ADD ifcopenshell /opt/conda/lib/python3.7/ifcopenshell
