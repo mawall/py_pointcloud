@@ -57,4 +57,4 @@ RUN jupyter notebook --generate-config && \
 RUN mkdir /notebooks && mkdir /data && mkdir /project && mkdir /opt/conda/lib/python3.7/ifcopenshell
 ADD ifcopenshell /opt/conda/lib/python3.7/ifcopenshell
 
-CMD ["sh", "-c", "jupyter lab --allow-root --ip ${HOST_IP}"]
+CMD ["sh", "-c", "jupyter lab --allow-root --ip=${HOST_IP} --NotebookApp.iopub_data_rate_limit=10000000000"]
