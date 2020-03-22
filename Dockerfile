@@ -29,22 +29,25 @@ RUN cd /opt && \
     cd / && rm -rf /opt/Open3D
 
 # Packages
-RUN pip install -U setuptools && \
-    pip install         \
-        python-pcl      \
-        pye57
-RUN conda install -y    \
-        matplotlib      \
-        numpy           \
-        pandas          \
-        scipy           \
-        scikit-learn
-RUN conda install -c conda-forge pdal python-pdal gdal && \
-    conda install -c plotly plotly=4.1.0 && \
-    conda install -c conda-forge jupyterlab
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager@1.0 --no-build && \
-    jupyter labextension install jupyterlab-plotly@1.1.0 --no-build && \
-    jupyter labextension install plotlywidget@1.1.0 --no-build && \
+RUN pip install -U pip \
+                   setuptools \
+                   Sphinx
+RUN pip install python-pcl \
+                pye57
+RUN conda update -n base -c defaults conda
+RUN conda install -y matplotlib \
+                     numpy \
+                     pandas \
+                     scipy \
+                     scikit-learn
+RUN conda install -c conda-forge pdal \
+                                 python-pdal \
+                                 gdal \
+                                 jupyterlab
+RUN conda install -c plotly plotly=4.1.0
+RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
+    jupyter labextension install jupyterlab-plotly --no-build && \
+    jupyter labextension install plotlywidget --no-build && \
 #    jupyter labextension install jupyterlab-chart-editor@1.2 --no-build && \
     jupyter lab build && \
     unset NODE_OPTIONS
