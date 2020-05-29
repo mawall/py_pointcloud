@@ -7,26 +7,10 @@ ARG OPEN3D_INSTALLATION_DIR="/opt/conda/lib/python3.7/site-packages/"
 # Python-PCL dependency - must be installed first
 RUN apt-get update && apt-get install -y libpcl-dev=1.7.2-14build1
 
-# Open3D: Installing latest master
-RUN curl -sL https://deb.nodesource.com/setup_12.x | /bin/bash - && \
-    apt-get -y install nodejs
-RUN (apt-get -y install xorg-dev libglu1-mesa-dev libgl1-mesa-glx || true) && \
-    (apt-get install -y libglew-dev || true) && \
-    (apt-get install -y libglfw3-dev || true) && \
-    (apt-get install -y libjsoncpp-dev || true) && \
-    (apt-get install -y libeigen3-dev || true) && \
-    (apt-get install -y libpng-dev || true) && \
-    (apt-get install -y libpng16-dev || true) && \
-    (apt-get install -y python-dev python-tk || true) && \
-    (apt-get install -y python3-dev python3-tk || true) && \
-    (apt-get install -y cmake)
-RUN cd /opt && \
-    git clone --recursive https://github.com/intel-isl/Open3D && \
-    mkdir /opt/Open3D/build && cd /opt/Open3D/build && \
-    cmake -DCMAKE_INSTALL_PREFIX=$OPEN3D_INSTALLATION_DIR .. && \
-    make -j$(nproc) && \
-    make install-pip-package && \
-    cd / && rm -rf /opt/Open3D
+# Open3D
+RUN wget https://github.com/intel-isl/Open3D/releases/download/v0.9.0/open3d-0.9.0.0-cp37-cp37m-manylinux1_x86_64.whl && \
+    pip install open3d-0.9.0.0-cp37-cp37m-manylinux1_x86_64.whl && \
+    rm -rf open3d-0.9.0.0-cp37-cp37m-manylinux1_x86_64.whl 
 
 # Packages
 RUN pip install -U pip \
@@ -43,8 +27,9 @@ RUN conda install -y matplotlib \
 RUN conda install -c conda-forge pdal \
                                  python-pdal \
                                  gdal \
-                                 jupyterlab
-RUN conda install -c plotly plotly=4.1.0
+                                 jupyterlab>=2.1.2 \
+                                 nodejs && \
+    conda install -c plotly plotly=4.1.0
 RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
     jupyter labextension install jupyterlab-plotly --no-build && \
     jupyter labextension install plotlywidget --no-build && \
