@@ -36,7 +36,7 @@ RUN conda install -y matplotlib \
 RUN conda install -c conda-forge pdal \
                                  python-pdal \
                                  gdal \
-                                 jupyterlab>=2.1.2 \
+                                 jupyterlab=2.1.2 \
                                  nodejs && \
     conda install -c plotly plotly=4.1.0
 RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
